@@ -16,25 +16,28 @@ import javax.swing.Timer;
 public class vistaPrincipal extends javax.swing.JFrame {
     
     public Timer contador;
-    public int cavidades, intervalo,produccion;
-    public double ciclo;
-    
-    
+    public int cavidades, intervalo;
+    private int produccion = 0; 
+    public double ciclo;    
+    int milesimas;
     private ActionListener acciones = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent ae) {
             cavidades = Integer.parseInt(txtCavidades.getText());
             ciclo=Double.parseDouble(txtCiclo.getText());
-            intervalo = contador.getDelay();
-            produccion = cavidades*contador.getInitialDelay();
-            System.out.println(produccion+(intervalo++));
+            
+            produccion = produccion + cavidades;
+            
+            txtProduccion.setText(String.valueOf(produccion));
+            
         }
     };
+    
     
    
     public vistaPrincipal() {
         initComponents();
-        contador = new Timer(1000, acciones);
+        contador = new Timer(milesimas, acciones);
     }
     
     
@@ -53,7 +56,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtCavidades = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtProduccion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,14 +100,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         txtCiclo.setText("jTextField1");
 
-        jLabel3.setText("Digite las cavidades reales}");
+        jLabel3.setText("Digite las cavidades reales");
 
         txtCavidades.setText("jTextField2");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel4.setText("Van");
 
-        jTextField3.setText("jTextField3");
+        txtProduccion.setText("jTextField3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,7 +133,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(54, 54, 54)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtCavidades, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -153,7 +156,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                     .addComponent(buttonParar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtProduccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(0, 38, Short.MAX_VALUE))
         );
@@ -162,7 +165,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
         
     private void buttonPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPararActionPerformed
-        // TODO add your handling code here:
+        contador.stop();
     }//GEN-LAST:event_buttonPararActionPerformed
 
     private void buttonIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIniciarActionPerformed
@@ -212,8 +215,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField txtCavidades;
     private javax.swing.JTextField txtCiclo;
+    private javax.swing.JTextField txtProduccion;
     // End of variables declaration//GEN-END:variables
 }
