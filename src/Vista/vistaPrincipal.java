@@ -16,21 +16,25 @@ import javax.swing.Timer;
 public class vistaPrincipal extends javax.swing.JFrame {
     
     public Timer contador;
-    public int cavidades;
+    public int cavidades, intervalo,produccion;
     public double ciclo;
+    
     
     private ActionListener acciones = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent ae) {
             cavidades = Integer.parseInt(txtCavidades.getText());
             ciclo=Double.parseDouble(txtCiclo.getText());
+            intervalo = contador.getDelay();
+            produccion = cavidades*contador.getInitialDelay();
+            System.out.println(produccion+(intervalo++));
         }
     };
     
    
     public vistaPrincipal() {
         initComponents();
-        contador = new Timer(1000, null);
+        contador = new Timer(1000, acciones);
     }
     
     
