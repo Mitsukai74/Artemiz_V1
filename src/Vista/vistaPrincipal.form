@@ -195,6 +195,9 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="ff" red="ff" type="rgb"/>
             </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>
@@ -219,7 +222,7 @@
                           <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                           <Component id="LabeltimeParadas" min="-2" pref="117" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" min="-2" pref="151" max="-2" attributes="0"/>
+                          <Component id="comboBoxParadas" min="-2" pref="151" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                           <Component id="ButtonGuardar" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -234,7 +237,7 @@
                   <Component id="jLabel5" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jComboBox1" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="comboBoxParadas" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                       <Component id="ButtonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="LabeltimeParadas" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
@@ -252,12 +255,12 @@
             <Property name="text" type="java.lang.String" value="Escoja la causal"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="comboBoxParadas">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="5">
                 <StringItem index="0" value="10- Falta de mezcla"/>
-                <StringItem index="1" value="17-Ajustes d ecalidad"/>
+                <StringItem index="1" value="17-Ajustes de calidad"/>
                 <StringItem index="2" value="20-Purga"/>
                 <StringItem index="3" value="30-Cambio de molde"/>
                 <StringItem index="4" value=" "/>
@@ -275,10 +278,15 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Guardar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonGuardarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="LabeltimeParadas">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel6"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>

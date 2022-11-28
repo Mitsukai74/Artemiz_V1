@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Modelo.ParadasClass;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -17,9 +18,13 @@ import javax.swing.Timer;
 public class vistaPrincipal extends javax.swing.JFrame {
     
     public Timer contador,paradas;
-    public int cavidades, intervaloParadas,horas,minutos,segundos;
+    public int cavidades;
+    public String tiempoParada,causal;
+    private int horas = 0;
+    private int minutos = 0;
+    private int segundos;
     private int produccion = 0; 
-    public double ciclo;    
+    private double ciclo =0;    
     int milesimas;
     
     //implementacion del timer que cuenta  la producción
@@ -40,9 +45,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
             segundos++;
             if(segundos == 60){
                 minutos++;
+                segundos = 0;
+                
             }
             if(minutos == 60){
                 horas++;
+                minutos = 0;
             }
             tiempoParadas();            
             
@@ -51,14 +59,15 @@ public class vistaPrincipal extends javax.swing.JFrame {
     
     public vistaPrincipal() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        contador = new Timer(4000, acciones);
+        
+        this.setLocationRelativeTo(null);           
+        contador = new Timer(milesimas, acciones);
         paradas = new Timer(1000, acciones1);
     }
     
     private void tiempoParadas(){
         String textoTimeParadas = (horas <= 9?"0":"")+horas+":"+(minutos <= 9?"0":"")+minutos+":"+(segundos <= 9?"0":"")+segundos;
-        LabeltimeParadas.setText(textoTimeParadas);
+        LabeltimeParadas.setText(textoTimeParadas);        
     }
     
     
@@ -79,7 +88,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         txtProduccion = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboBoxParadas = new javax.swing.JComboBox<>();
         ButtonGuardar = new javax.swing.JButton();
         LabeltimeParadas = new javax.swing.JLabel();
 
@@ -133,6 +142,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel4.setText("Unidades");
 
         txtProduccion.setBackground(new java.awt.Color(255, 255, 102));
+        txtProduccion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -177,12 +187,17 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Escoja la causal");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10- Falta de mezcla", "17-Ajustes d ecalidad", "20-Purga", "30-Cambio de molde", " " }));
+        comboBoxParadas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10- Falta de mezcla", "17-Ajustes de calidad", "20-Purga", "30-Cambio de molde", " " }));
 
         ButtonGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         ButtonGuardar.setText("Guardar");
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
-        LabeltimeParadas.setText("jLabel6");
+        LabeltimeParadas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         LabeltimeParadas.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -198,7 +213,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(LabeltimeParadas, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboBoxParadas, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(71, 71, 71)
                         .addComponent(ButtonGuardar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -209,7 +224,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxParadas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ButtonGuardar)
                     .addComponent(LabeltimeParadas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 30, Short.MAX_VALUE))
@@ -250,13 +265,30 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void buttonPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPararActionPerformed
         contador.stop();
         JOptionPane.showMessageDialog(null, "Es esa la causa a registrar?");
+        
+        paradas.start();
     }//GEN-LAST:event_buttonPararActionPerformed
 
     private void buttonIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIniciarActionPerformed
         ciclo=Double.parseDouble(txtCiclo.getText());
-        milesimas = (int) (ciclo * 1000);
+        milesimas = (int) (ciclo*1000); 
+        contador.setDelay(milesimas);        
         contador.start();
+        paradas.stop();
+        
     }//GEN-LAST:event_buttonIniciarActionPerformed
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        ParadasClass nuevaParada = new ParadasClass();
+        //enviando la información al modelo
+        tiempoParada = LabeltimeParadas.getText();
+        nuevaParada.setTiempo(tiempoParada);
+        causal = comboBoxParadas.getSelectedItem().toString();
+        nuevaParada.setCausal(causal);
+        LabeltimeParadas.setText("00:00:00");
+        System.out.println("parada: "+nuevaParada.getTiempo());
+        System.out.println("causal: "+nuevaParada.getCausal());
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -298,7 +330,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel LabeltimeParadas;
     private javax.swing.JButton buttonIniciar;
     private javax.swing.JButton buttonParar;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> comboBoxParadas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
