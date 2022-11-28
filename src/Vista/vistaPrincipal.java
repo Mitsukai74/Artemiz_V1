@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Controlador.Consultas;
 import Modelo.ParadasClass;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private double ciclo =0;    
     int milesimas;
     
+    Consultas consultas = new Consultas();
     //implementacion del timer que cuenta  la producción
     private ActionListener acciones = new ActionListener() {
         @Override
@@ -36,8 +38,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             txtProduccion.setText(String.valueOf(produccion));
             
         }
-    };
-    
+    };    
     //implemantación del timer de las paradas
     private ActionListener acciones1 = new ActionListener() {
         @Override
@@ -198,6 +199,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         });
 
         LabeltimeParadas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        LabeltimeParadas.setForeground(new java.awt.Color(0, 51, 204));
         LabeltimeParadas.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -274,7 +276,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         milesimas = (int) (ciclo*1000); 
         contador.setDelay(milesimas);        
         contador.start();
-        paradas.stop();
+        
         
     }//GEN-LAST:event_buttonIniciarActionPerformed
 
@@ -285,6 +287,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
         nuevaParada.setTiempo(tiempoParada);
         causal = comboBoxParadas.getSelectedItem().toString();
         nuevaParada.setCausal(causal);
+        paradas.stop();
+        consultas.registrarParada(nuevaParada);
         LabeltimeParadas.setText("00:00:00");
         System.out.println("parada: "+nuevaParada.getTiempo());
         System.out.println("causal: "+nuevaParada.getCausal());

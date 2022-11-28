@@ -1,16 +1,18 @@
 
 package Controlador;
 
+import Modelo.ParadasClass;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import Vista.vistaPrincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Consultas {
     
     ConexionBD nuevaConexion = new ConexionBD();
     
     
-    public boolean registrarParada(){
+    public boolean registrarParada(ParadasClass newParada){
         
         PreparedStatement ps = null;
         Connection con = nuevaConexion.hacerConexion();
@@ -18,13 +20,26 @@ public class Consultas {
         String sql = "INSERT INTO controlparadas (causal,tiempo) VALUES (?,?)";
         try {
             ps=con.prepareStatement(sql);
+            ps.setString(1, newParada.getCausal());
+            ps.setString(2, newParada.getTiempo());
             
-        } catch (Exception e) {
-        }
+            ps.executeUpdate();
+            
+            try (ResultSet rs = ps.getGeneratedKeys()){
+                while (rs.next()) {                    
+                    newParada.setId(rs.getInt(1));
+                    System.out.println("Parada registrada");
+                }
+                
+            } catch (Exception e) {
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }      
         
-        
-        return true;
-        
+        return true;        
     }
     
 }
